@@ -61,6 +61,18 @@
 	
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
+	METHODOLOGY
+	
+	- How to implement a solution:
+		1. Implement a simple algorithm to get started fast (quick and dirty)
+		2. Test it with cross validation
+		3. Plot learning curves to decide if more features, more data or anything from previous parts are needed.
+		4. Error analysis: Manually spot examples the algorithm makes errors on. Try to divide it into categories
+		5. Fixing errors: Try to find remedies to how the largest categories can be solved. 
+
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
 	PROBLEMS AND SOLUTIONS
 		
 		---------------------------------|-------------------
@@ -92,14 +104,65 @@
 		Vary size of network, either number of layer of number of units
 		Perform cross validation algorithm
 	
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Skewed data and classifier tradeoffs
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	SKEWED DATA
+	
+	- When the data is very skewed the prediction can become unreliable. 
+		Example: predicting cancer from a data set where only 0.05% has cancer will give the 
+		model 99.5% accuracy just by always predicting that a patient never has cancer.
+
+	- To remedy this the confusion matrix is used. From it precision and recall can be calculated
+		which can indicate this type of error. In the example above the recall would be 0. Meaning
+		0% rate at correctly predicting cancer.
+	
+	
+	Confusion matrix:
+			 
+          | pred 1 pred 0 |
+    ----------------------------			
+    act 1 |  TP       FP  |  AP			
+    act 0 |  FN       TN  |  AN			
+    ----------------------------			
+			 |	 AT		 PF  |
+		
+	TP = True Positive		|	FP = False Positive												
+	TN = True Negative		|	FN = False Negative											
+	-------------------------------------------------
+	AP = Actual Positive		|	AN = Actual Negative
+	PP = Predicted Positive	|	PF = Predicted Negative
+	AP = TP + FN				|	AN = TN + FP
+	PP = TP + FP				|	PF = TF + FN
+	
+	
+		  |	precision   	recall  	|	F1-score									|
+	-----|---------------------------|-----------------------------------|
+	 1   |    TP/PP      	TP/AP    |  2PrRe/(Pr + Re)  for Positive		|
+	 0   |    TN/TP      	TN/AN    |  2PrRe/(Pr + Re)  for Negative	 	|
+   -----|---------------------------|-----------------------------------|
+	avg  |    Pr     			Re       |  F1											|
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	PRECISION/RECALL TRADEOFF
+	
+	- The precision and recall can be used to balance an algorithm by changing the classifier limit.
+		Example: Predicting cancer, false positives are damadging and should be minimized. The classifier
+					limit is changed from 0.5 to 0.7. This will increase precision but reduce recall.
+
+	- Precision: 	How reliable a certian prediction is.
+	- Recall:		The rate at which a certain outcome is caught by our predictions.
+	- F1-score:		Single number of how good precision/recall we have
+	
 	
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| 1. Methodology
+| 2. LARGE DATA SETS
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-	
-	- How to implement a solution:
-		1. Implement a simple algorithm to get started fast (quick and dirty)
-		2. Test it with cross validation
-		3. Plot learning curves to decide if more features, more data or anything from previous parts are needed.
-		4. Error analysis: Manually spot examples the algorithm makes errors on. Try to divide it into categories
-		5. Fixing errors: Try to find remedies to how the largest categories can be solved. 
+
+	- Requirements for large datasets to be useful
+		1. Sufficient amount information (the features have to capture what is being predicted - could a humain domain expert predict with this info?)
+		2. Sufficiently complex algorithm (like NN with many layers or regression with a lot of features)
