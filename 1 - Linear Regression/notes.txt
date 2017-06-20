@@ -1,0 +1,128 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Multivariate Linear Regression
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	BASICS
+
+	- Multivariate linear regression means that there are more than one feature
+
+	- Hypothesis is denoted h(x) and is a function that should take input x and produce output y (as close as possible)
+	
+	- Hypotheses: 	ho = O0*x0 + O1*x1 + O2*x2 + ... On*xn (where o/O is theta and x0 = 1)
+				Alt:	ho = O0 + O1*feature1 + O2*feature2 + ... On*feature(n+1)
+				Alt:	ho = transpose(O)*x
+				Alt: 	ho = X*theta (vectorized)
+				
+	- X-matrix notation = xj^(i) where 2x2 = 	| x0^(1)	x0^(2) |		where	xj^(i) =	\/(i)			
+															| x1^(1)	x1^(2) |							/\ j
+															
+	- The cost function will always be a bowl without local minimums which makes gradient descent great
+	
+	- Squared error cost: 	J = 1 / (2 * m) * sum(((X * theta) - y) .^ 2);
+							Alt:	J = sum((1/(2*m))*(X*theta - y).^2)					(Vectorized)
+															
+	- Gradient descent: 	Oj := Oj - a*(1/m)*sum(ho*(x^(i) - y^(i))*xj^(i)) 				(where sum i = 1 -> m)
+						Alt:  theta := theta - alpha * 1 / m * (A' * X)'						(where A = X * theta - y)
+						Alt: 	theta := theta - alpha * 1 / m * ((X * theta - y)' * X)'
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	FEATURE SCALING
+	
+	- Unproportial scaling in features can slow down gradient descent, e.g. feature1 = [0...2000] and feature2 = [1...10]
+	
+	- The shape of the cost function will be oval instead of a nice round bowl
+	
+	- Feature scaling: To avoid this the we can normalize the features by dividing them by their own max, 
+			e.g. [0...2000] / 2000 = [0...1],  [1...10] / 10 = [0.1...1]
+			
+	- Mean normalization: it is also good to normalize the mean, 
+			e.g. X = [499...501], X - 500 = [-1...1]
+	
+	- Try to get all features in approx in the range -1 <= xi <= 1, exactly is not important, maybe a factor 3 in margin
+	
+	- Scaling formula X' = (X - avg(X))/(max(X) - min(X)) or X' = (X - mean(X))/(std(X)) where std = standard deviation			
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	GRADIENT DESCENT - LEARNING RATE
+	
+	- Simplest way to check for convergence is to plot the cost function J over the training iterations
+	
+	- If the cost function increases or fluctuates over iterations the alpha should be descreased
+	
+	- Side effect of a too small alpha is just slow convergence
+	
+	- A good way to find the right alpha is to start low and increase alpha * 3, e.g. 0.001, 0.003, 0.01, 0.03, 0.1, .....
+		until a good range for alpha is discovered
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	FEATURES AND POLYNOMIAL REGRESSION
+	
+	- Features can be improved by manipulation to provide better predictions
+	
+	- Features can be omitted if they are irrelevant and composite features can be made by combining two or more features,
+			e.g. 	ho = O0 + O1*width + O2*height can be changed to
+					ho = O0 + O1*(width * height) which is the same as
+					ho = O0 + O1*area
+																				
+	- If we want a polynomial regression instead we can exponate features and add them as extra features in the following way
+			Linear: 		ho = O0 + O1*feature1
+			Quadratic: 	ho = O0 + O1*feature1 + O2*feature1^2
+			Cubed: 		ho = O0 + O1*feature1 + O2*feature1^2 + O3*feature1^3
+			n-ed:			ho = O0 + O1*feature1 + O2*feature1^2 + O3*feature1^3 + ... + n*feature1^n
+			Root			ho = O0 + O1*feature1 + O2*sqrt(feature1)
+			(This can be applied for one or more features)
+	
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Computing Parameters Analytically
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	NORMAL EQUATION
+	
+	- The normal equation is an alternative to gradient descent that can solve the problem analytically instead of iterative.
+	
+	- The normal equation minimizes the cost function by taking the partial derivative for all theta of the cost function and 
+		setting it equal to zero
+		
+	- Formula: O = (((X)^(T) * X)^(-1))*(X^(T))*y or O = inv(transpose(X)*X)*transpose(X)*y or O = ((X'X)^(-1))^(-1))(X')y
+	
+	- To make X we take features and add a column of ones in the beginning to make a m*(n+1) matrix X
+						 ----------------------------------------------				-----------					
+			sample 1: | 1 		feature1		feature2  ... feature(n) |				| target1 |				-------------------	
+					 2: | 1 		feature1		feature2  ... feature(n) | = X		| target2 | = Y		| O0	O1	...	On | = theta
+					 .: | 1 		...			...  		 ... ... 		 |				| ...		 |				-------------------	
+					 m: | 1 		feature1		feature2  ... feature(n) |				| targetm |					
+						 ----------------------------------------------				-----------					
+			(Where n is the number of features and m is the number of samples)
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	GRADIENT DESCENT vs NORMAL EQUATION
+	
+	
+				| Gradient descent 			|	Normal equation 										 |
+		----------------------------------------------------------------------------------|
+		PROS 	| Works well with large n	| 	Does not need a suitable alpha 					 |
+				| 									|	Does not need a suitable number of iterations |
+		------|---------------------------------------------------------------------------|
+		CONS	| 	Need to chose alpha		|	Slow for large n										 |
+				| 	Many iterations			|	 															 |
+		-----------------------------------------------------------------------------------
+		
+		- The limit for when gradient descent is preferable when number of features n is larger than ~10,000
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	NORMAL EQUATION - NON-INVERTABILITY
+	
+	- Not all matrices are invertable, in rare cases X^(T))*X can be non-invertible
+	
+	- Octave can still calculate the pseudo-inverse pinv(x) which gives the desired value for the normal equation
+	
+	- Causes of non-invertiblity:
+			Redundant features, like having length in boot meters and feet (delete the redudant features)
+			Too many features - m <= n 												(in this case delete features or use regularization)
+	

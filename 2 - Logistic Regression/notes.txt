@@ -1,0 +1,96 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Logistic Regression - Classification
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	BASICS
+
+	- Classification is when the prediction is a discrete value. There is binary classification where y => 0 or 1
+		and multiclass classification where y => 0, 1, 2, ... , n.																								Sigmoid Func
+		
+	- Problems with using linear regression and intervals for classification: 																						
+			Data will be scewed since it has to fit all data in a line.																								  	  |1 /-------------
+			Hypothesis can output values much higher that 0 and 1.																										  | /
+																																															  |/
+	- ho(x) = g(O'*x) 		(where g(z) = 1/(1+e^(-z)) the sigmoid function)	(not vectorized)																 /|0.5
+	- ho(x) = g(X'*theta) 	(where g(z) = 1/(1+e^(-z)) the sigmoid function)	(vectorized)													 		  		/ |
+																																								    ----------------/  |0
+	- The sigmoid function g is a function which starts at 0 and then rises and until it reaches 1. Therefore it is		    -------------------|----------------			
+		good for classification since it psuedo binary. the value inbetween can be regarded as the probability that the								  0
+		hypothesis conforms to a classification.																										
+																																															 
+	- Cassification 	O'*x >= 0 will be classificed as 1 with g(z) => 0.5, more(or exact) than 50% probability for y = 1
+							O'*x <  0 will be classificed as 0 with g(z) < 0.5, less than 50% probability for y = 1
+							
+	- Polynomial regression is applicable to classification as well.
+			Linear: 		ho = O0 + O1*feature1
+			Quadratic: 	ho = O0 + O1*feature1 + O2*feature1^2
+			Cubed: 		ho = O0 + O1*feature1 + O2*feature1^2 + O3*feature1^3
+			n-ed:			ho = O0 + O1*feature1 + O2*feature1^2 + O3*feature1^3 + ... + n*feature1^n
+			Root			ho = O0 + O1*feature1 + O2*sqrt(feature1)
+			(This can be applied for one or more features)
+			
+			
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	COST FUNCTION
+	
+	- The squared error cost function used in linear regression is not good since it is "non-convex" with several
+		local minimums.
+		
+	- Cost function :	| -log(ho(x)) 		if y=1
+							|	log(1 - ho(x)) if y=0
+							
+	- The cost function goes to infinity on both ends, if y = 1 and ho(x) -> 0 and vice versa. This makes the penalty
+		very high which can train in high certainty round the edges
+		
+	- Compressed cost function:	J = -(1/m) sum[-y(i)*log(ho(x(i))) - (1 - y(i))*log(1 - ho(x(i)))] where i -> m	(not vectorized)
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	GRADIENT DESCENT
+		
+	- The only difference in the formula is the new costfunction which leads to a seperate partial derivative from linear reg.
+
+	-  Gradient descent: 	θ 	:= θ - alpha * diff(J(θ))
+						 Alt:		θj := θj - a*(1/m)*sum(hθ*(x^(i) - y^(i))*xj^(i))
+						 Alt:		θ	:= θ − (α/m)*X'(g(X*θ)−y)			(Vectorized)	
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	ADVANCED OPTIMIZATION
+	
+	- Gradient descent is simple and effective algorithm for minimizing the cost function. But it is costly
+		especially for many features since it has to perform derivation and calculate the cost to monitor convergance (optional)
+		
+	- Alternatives: Conjecture gradient, BFGS, L-BFGS
+	
+	- Advantages: 		No need to pick an alpha (tries out different alphas in an inner loop)
+							Often faster 
+	
+	- Disadvantage:	Complex
+	
+	- These algorithms takes alot to understand. Therefore it is best to go with  library implementations.
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	MULTICLASS CLASSIFICATION
+	
+	- One vs All: A common way of doing multiclass is to divide the problem into several binary classifications where one class is dealt with at a time.
+		Example: lets say we have 3 classes, y = 1,2,3. First set y = 1,2,2 and classifiy a hypothesis for y = 1.
+	
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	OVERFITTING
+		
+	- Overfitting is when a model has been trained to fit the training data rather than reality.
+	
+	- Causes: Too many features compared to the amount of training data creates high order polynomials that can fit the training data in a paint by numbers sort of way
+	
+	- Remedy
+		Reduce features: 	Manually select which features to keep
+								Model selection algorithm (later)
+								
+		Regularization:	Keep all features but reduce magnitude/values of parameters θ. (Works well with many features that each contribute a bit to y)
+								
+

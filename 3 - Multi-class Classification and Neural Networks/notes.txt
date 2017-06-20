@@ -1,0 +1,70 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Multiclass Logistic Regression
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	MULTICLASS CLASSIFICATION
+	
+	- One vs All: A common way of doing multiclass is to divide the problem into several binary classifications where one class is dealt with at a time.
+		Example: lets say we have 3 classes, y = 1,2,3. First set y = 1,2,2 and classifiy a hypothesis for y = 1.
+	
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Neural Networks
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	BASICS
+
+	- The reason why neural networks is "superior" is because it is more effective at non-linear hypotheses.
+		To do corresponding predictions with conventional learning would require excessive amounts of polynomial features to be added.
+		
+	- Layers: Input layer -> Hidden layers -> Output layer
+	
+	- Annotation
+		L 			= number of layers
+		sl			= number of units s in layer l, example s2 is the number of units in layer 2
+		K 			= number of classes for classification (multiclass classification)
+		ai^(l)	= activation funciton where i is unit and l is layer. Basically X after it goes through a layer 
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	FEED FORWARD
+	
+	- a matrix dimensions: (units in layer) X (units in next layer + 1)
+			
+	- Formulas for vectorizing the activation functions and hypothesis
+		Init ->		a^(1) 		= x   					(the first activation function is just the inputs)
+						a0				= 1						(bias, always 1 for every layer)
+						
+		Loop i<j		z^(i + 1) 	= ϴ^(i) * a^(i)
+						a^(i + 1) 	= [a0, g(z^(i + 1))]	(not g incase of linear regression)
+					Repeat i++
+						
+						h(ϴ) 			= a^(j) 					(where j = number of layers)
+						
+	- Neural networks work as layered regression but it keeps changing features for every layer
+		x - > a^(1) -> .... -> a^(j)
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	EXAMPLES
+	
+		- General neuron														
+																										
+		ϴ10 * 1  ---------																		
+								\																	
+		ϴ11 * x1 -----------(Neuron) ---> hϴ(x) = g(ϴ10*1 + ϴ11*x1 + ϴ12*x2)		
+								/																	
+		ϴ12 * x2 ---------																	
+	
+	
+		- Single neuron example (AND-function):																		RESULTS
+																															|_x1__x2_|__hϴ(x)______
+		Bias 0	: -30 * -> 	1  ---------																		|	0	0	|  g(-30) ~= 0
+													\																		|	0	1	|	g(-10) ~= 0
+		Weight 1	: +20 * ->  x1 -----------(Neuron) ---> hϴ(x) = g(-30*1 + 20*x1 + 20*x2)		|	1	0	|	g(-10) ~= 0
+													/																		|	1	1	|	g(10)  ~= 1
+		Weight 2	: +20 * ->  x2 ---------																		-----------------------
+																													
+		
+		
+		

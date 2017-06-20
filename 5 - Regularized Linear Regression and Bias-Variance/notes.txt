@@ -1,0 +1,105 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Evaluating a Learning Algorithm
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	- Improving a learning algorithm - Linear regression
+		- Get more training examples
+		- Select fewer, more significant features
+		- Try more features
+		- Adding polynomial features
+		- Adjusting regularization
+		
+	- Machine learning diagnostics
+		- A test that can be run to gain insight in what is/isn't working with a learning algorithm.
+		- Can take time to implement, but doing so can still reduce total time.
+		
+	- Evaluating a hypothesis
+		- Divide into training and testing sets (at random)
+		- 70/30 - training/testing split is a good rule
+		- Get a hypothesis by minimizing cost on training data
+		- Compute test set error on test data (squared error or similar)
+		
+	- Cross validation (used to find a suitable model, example: finding the right polynomial degree)
+		- Split data into three sets
+		- Training/cross validation/testing 60/20/20
+		- Train each model on test set (start with linear and increase degree for polynomials)
+		- Compare costs on cross validation data
+		- Pick the hypothesis with the lowest error
+		- Test the hypothesis on the test data to find the generalized error
+		(This is performed since the degree cannot be picked using the test data and still measure the
+		generalized error. The the degree has been "fitted" to the test set)
+		
+		
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	BIAS VS. VARIANCE
+
+	- Definitions
+		- Bias is underfitting and variance is overfitting	
+		- When a model is suffering from bias the training error and the cross validation error usually both high (similiar values)
+		- When a model is suffering from variance the training error is low and the CVE is high
+
+	- Regularization
+		A too large lambda will suppress all non-linear components and introduce bias
+		A too low lambda will not suppress them enough and be susceptible to variance
+		
+	- Selecting a regularization lambda
+		- Find a range of lambda to try, tip: increase each step by a factor 2
+		- Use the cross validation algorithm
+		
+	- Learning curves
+		- Start training with a small number of training examples, m, and increase
+		- Plot J-cv and J-train
+		- Evaluate for bias or variance.
+		- Bias: 		J-cv start high, J-train start low, they converge close to eachother inbetween when m increase.
+		- Variance: J-cv start high, J-train start low, they stay far from eachother, J-cv remains high, when m increase.
+		
+		- Conclusions: 1. When bias is found no additional training samples will help.
+							2. When variance is found additional trainings samples should help.
+							3. The extrapolation of the J-cv is the best indicator of if extra samples will be good
+							
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+	PROBLEMS AND SOLUTIONS
+		
+		---------------------------------|-------------------
+		TOOL										|			USED FOR
+		---------------------------------|-------------------
+		Get more training examples			|		High variance
+		Handpicking fewer features			|		High variance
+		Adding more features					|		High bias
+		Adding polynomial features			|		High bias
+		Increasing regularization			|		High variance
+		Decreasing regularization			|		High bias
+		---------------------------------|-------------------
+		
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	NEURAL NETOWORKS
+	
+	- Small networks (few layers and hidden units)
+		Computionally cheap
+		Prone to underfitting/bias
+		
+	- Large networks (many layers and hidden units)
+		Computionally expensive
+		Prone to overfitting/variance
+		Regularization should be used to address overfitting
+		
+	- Chosing a size of network
+		Vary size of network, either number of layer of number of units
+		Perform cross validation algorithm
+	
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Methodology
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	- How to implement a solution:
+		1. Implement a simple algorithm to get started fast (quick and dirty)
+		2. Test it with cross validation
+		3. Plot learning curves to decide if more features, more data or anything from previous parts are needed.
+		4. Error analysis: Manually spot examples the algorithm makes errors on. Try to divide it into categories
+		5. Fixing errors: Try to find remedies to how the largest categories can be solved. 
