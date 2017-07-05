@@ -1,0 +1,53 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Large margin classification
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	INTRODUCTION
+	
+	- Support vector machine (SVM)
+		A SVM is a simplification of regular regression.
+		Uses straight lines and margin zones in the cost function
+		Gives a large margin in the decision boundary
+		Gives computational advantages
+	
+	- Hyposthesis:	| θ'x(i) >= 1		if y(i) = 1
+						| θ'x(i) <= -1		if y(i) = 0				
+					
+	- Cost: J = C*sum(y(i) cost1(hθ) + (1 - y(i)) * cost0(hθ)) + (1/2)*sum(θj^2)
+	
+	- Chosing C:	Large C -> Low bias, high variance
+						Small C -> High bias, low variance
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	KERNELS
+	
+	- Kernels are a way of introducing nonlinearity by introducing new features
+	- Features are created in relation to landmarks (l) that are selected
+	- 1 feature per landmark
+	- Chose landmarks to be the same as the training examples, which gives m landmarks
+	
+	
+	- Gaussian kernal formula: f(i) = similarity(x,l(i)) = exp(-||x - l(i)||^2/(2*σ^2)) 
+		where ||x - l(i)|| = sum(xj - lj^(i)) where j => number of features and i is the current landmark
+		
+	- The features will be close to 1 if they are near the landmark and close to 0 if they are far away
+	- Sigma is how much sensitive the feature should be to distance from the landmark, high sigma -> low sensitivity
+	
+	- Chosing σ:	Small σ -> Low bias, high variance
+						Large σ -> High bias, low variance
+	
+	- Cost: J = C*sum(y(i) cost1(θ'f(i)) + (1 - y(i)) * cost0(θ'f(i))) + (1/2)*sum(θj^2)
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	SVN vs Logistic regression
+	
+	- If n is large in relation to m, like in orders of magnitiude. Use logstic regression or maybe SVM without a kernel
+	
+	- If n is small, m is intermediate (n = 1 - 1000, m = 10 - 10 000) use SVM with gaussian kernal
+	
+	- If n is small in relation to m, (n = 1 - 1000, m = 50 000+). Create add more features, then use logistic reg or kernelless SVM.
+	
+	- Neural networks will also work, but are slower to train.
