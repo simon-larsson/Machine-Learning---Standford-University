@@ -1,0 +1,57 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Clustering
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	K-MEANS
+	
+	- Introduction
+		The most popular clustering algorithm
+		Works with cluster centroids
+		
+	- Steps
+		1. Places cluster centroids at initial position
+		2. Assigns samples one of the centroids
+		3. Moves centroids to the mean of the assigned samples
+		4. Repeat step 2-3 until centroids and samples assigment has converged
+		
+	- Algorithm
+		Input:	K (number of clusters)
+					Training set { x^(1), x^(2), ..., x^(m)}
+					
+		Randomly initialize K cluster centroids μ1, μ2, ..., μK
+		repeat until converged {
+			for i = 1 to m {
+				c^(i) := index (from 1 to K) of cluster centroid closest to x^(i) or min k ||x^(i) - μK||^2
+			}
+			for k = 1 to K {
+				μk := mean of points assigned to cluster
+			}
+		}
+	
+	- Cost function (distortion): J (c^(1), c^(2), ..., c^(m), μ1, μ2, ..., μK) = (1/m)*sum(||x^(i) - μc^(i)||^2) 	
+			where 	i -> m 
+			and 		μc^(i) = cluster centroid of x^(i)
+			and 		|x^(i) - μK||^2 = sum(x^(i) - μK)
+			
+	- Initializing centroids
+		K should be less than m
+		1. Randomly pick K training examples
+		2. Set μ1, μ2, ..., μK to the K examples
+	
+	- Avoiding local optimas
+		Run the algorithm several times randomizing initialization each time and taking the result with the lowest J
+		Maybe 50 - 1000 times depending size of data and K
+		Low K means that this gets more important
+		
+	- Chosing the number of clusters
+		Elbow method (uncommon): Increase the amount of clusters and plot the J, take the K where the J seems to flatten (like the elbow of an arm) \_
+		Downstream method: Chose K depending on how it performs on your use case. 
+		
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Dimensionality Reduction
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	- Introduction
+		If there are highly correlated data in a dataset then the correlated data can be combined into one
+		A linear representation of the data is found and then the correlated data is projected on that axis
