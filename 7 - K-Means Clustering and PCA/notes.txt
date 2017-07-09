@@ -49,9 +49,45 @@
 		
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| 1. Dimensionality Reduction
+| 1. PCA - Principal Component Analysis
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	- Introduction
+	- Dimensionality reduction
 		If there are highly correlated data in a dataset then the correlated data can be combined into one
 		A linear representation of the data is found and then the correlated data is projected on that axis
+		The most common form of this is PCA
+		
+	- Preprocessing before PCA:
+		Always beform feature scaling before applying PCA
+		1. μj = (1/m)*sum xj^(i) 	where i -> m
+		2. Replace μj^(i) with xj - μj
+	
+	- Algorithm: 
+		1. Σ = (1/2)*sum(x^(i))(x^(i))'	where i -> m	vectorized: Sigma = (1/m)*X'*X 
+		2. Compute eigenvectors of Σ	or [U,S,V] = svd(Sigma) or eig(Sigma)
+		3. Take the matrix U, take the first k-vectors (columns) of U -> Ureduce = u^(1), u^(2), ..., u^(k)    	(where k is the dimension size that is desired)
+		4. z = Ureduce' * X
+		
+	- Recontructing reduced dimension
+		Xapprox = Ureduce * Z		where Ureduce (n x k) and z (k x 1) which gives Xapprox (n x 1)
+		
+	- Choosing k for PCA
+		Average squared projection error (ASPE): 	(1/m)*um(||x^(i) - x_approx^(i)||^2)	where i -> m
+		Total variation in the data (TV):			(1/m)*um(||x^(i)||^2)						where i -> m
+		--------------------------------------------------------------------------
+		Choose the k that is the lowest value that satisfies:	(ASPE / TV) <= 0.01	
+		
+	- Choosing k faster, from svd
+		k can be checked faster with S-matrix from [U,S,V] = svd(Sigma)
+		From the diagonal of S we can compute 1 - (sum(Sii) / sum(Sii)) <= 0.01		where top i-> k and bottom i-> n
+		
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 2. General steps when to apply PCA
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		
+		1. Get training set
+		2. Run PCA to reduce dimensionality (optional: this should not be included first time but can be added to boost performance)
+		3. Train logistic regression
+		4. Test on test set
+	
