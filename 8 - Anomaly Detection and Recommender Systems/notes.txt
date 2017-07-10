@@ -1,5 +1,58 @@
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-| 0. Density Estimation
+| 0. Anomaly Detection
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
-	
+	- Introduction
+		Algorithm that takes "normal" examples as training set to learn what is considered normal
+		After training it can be used to classify a new example as either normal or anomalous
+		Model p(x) takes new example x_test and evaluates  |	p(x_test) < ε 	-> anomalous
+																			|	p(x_test) >= ε -> normal
+																			
+	- Common used
+		Fraud detection
+		Fault detection
+		Monitoring
+		
+	- Gaussian distribution
+		Formula:	1/(sqrt(2*π)*σ) * exp(-((x - μ)^2)/(2*σ^2)) 
+		Where μ can be approxed as:	(1/m)*sum(x^(i))			where i -> m
+		Where σ^2 can be approxed as:	(1/m)*sum(x^(i) - μ)		where i -> m
+		(performed individually for each feature)
+		
+	- Anomaly detection formula: p(x) = p(x1, μ1, σ1^2)*p(x2, μ2, σ2^2)*...*p(xn, μn, σn^2)		
+		(Where we assume x1-xn are gaussian-distributions)
+		
+	- Step by step:
+		1. Select features which might be indicative of anomalies you want to detect
+		2. Fit parameters x1, μ1, σ1^2, ..., xn, μn, σn^2
+		3. Calculate the anomaly detection formula on each feature p(x) on new example
+		4. Evaluate p(x_test) < ε
+		
+		
+	- Splitting into sets
+		Select a training set with few anomalies. Maybe (y=0 10000)/(20 y=1) is an ok ratio
+		Split all y=0 60/20/20% into training/cross-val/test
+		Split all y=1 50/50% into cross-val/test
+		
+	- Evaluation
+		The model makes predictions y =  | 1 if p(x) < ε	(anomaly)
+													| 0 if p(x) >= ε	(normal)
+		Possible metrics for evaluation: Confusion matrix (True positives, etc)
+		Pick ε so it optimizes the desired evaluation metrics
+		
+	- 	Anomaly detection vs Supervised learning
+		Use AD when:	- Very small number of positive examples (y=1), (0-20 is common)
+							- Large number of negative examples (y = 0)
+							- Many different types of anomalies which might be hard to learn from looking at positive examples.
+		
+		Use SL when:	- Large number of positive and negative examples
+							- Enough positive examples where the algorithm can get a sense from them
+							
+		
+	- Non-gaussian features
+		Non-gaussian features can be transformed using things such as log to make them more gaussian 
+		Example: log(x), log(x + constant), sqrt(x), x^2, etc
+		Just play around with the feature until it starts looking gaussian
+		
+		
+		
