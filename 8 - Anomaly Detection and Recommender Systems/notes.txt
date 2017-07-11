@@ -2,6 +2,8 @@
 | 0. Anomaly Detection
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 	
+	ALGORITHM
+	
 	- Introduction
 		Algorithm that takes "normal" examples as training set to learn what is considered normal
 		After training it can be used to classify a new example as either normal or anomalous
@@ -21,6 +23,10 @@
 		
 	- Anomaly detection formula: p(x) = p(x1, μ1, σ1^2)*p(x2, μ2, σ2^2)*...*p(xn, μn, σn^2)		
 		(Where we assume x1-xn are gaussian-distributions)
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	WORKING WITH
 		
 	- Step by step:
 		1. Select features which might be indicative of anomalies you want to detect
@@ -54,5 +60,24 @@
 		Example: log(x), log(x + constant), sqrt(x), x^2, etc
 		Just play around with the feature until it starts looking gaussian
 		
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------	
+| 1. Recommender systems
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
+	- Introduction
+		Recommender systems are learning algorithms that looks at missing parameters in a set and tries to predict them based on a set 
+		of features on the parameters
+		
+		Example: a sample with a user where the parameters are movie ratings. Predict movie ratings on movies he has not watched based 
+					on his other ratings and how they correspond to other users ratings based on features such as (action, romance, etc)
+
+		
+	- Formula per parameter
+		θ^(j) 		= parameter vector	where j -> nθ
+		x^(i) 		= feature vector 		where j -> nx
+		mj				= count of non-missing parameters for j
+		cost			= sum((θ^(j))'*(x^(i)) - y^(i,j)))^2 + (λ/2)*sum(θk^(j))^2	where k -> n
+		prediction 	= (θ^(j))'*(x^(i))
+		Algorithm	= Gradient descent or other minimization of cost function
 		
