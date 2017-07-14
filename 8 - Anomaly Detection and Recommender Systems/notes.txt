@@ -77,7 +77,44 @@
 		θ^(j) 		= parameter vector	where j -> nθ
 		x^(i) 		= feature vector 		where j -> nx
 		mj				= count of non-missing parameters for j
-		cost			= sum((θ^(j))'*(x^(i)) - y^(i,j)))^2 + (λ/2)*sum(θk^(j))^2	where k -> n
+		cost			= minθ sum((θ^(j))'*(x^(i)) - y^(i,j)))^2 + (λ/2)*sum(θk^(j))^2	where k -> n
 		prediction 	= (θ^(j))'*(x^(i))
 		Algorithm	= Gradient descent or other minimization of cost function
+		Gradient descent = xk^(i) - alpha*sum(((θ^(j))'*(x^(i)) - y^(i,j))*θk + λ*xk^(i))
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 		
+	COLLABORATIVE FILTERING
+	
+	- Introduction
+		Instead of scoring the features collaborative filtring calcutates them from the parameters
+		Same recommender algorithm formula but it finds x^(i) instead of θ^(j)
+		
+	- Cost: minx (1/2)*sum((θ^(j))'*(x^(i)) - y^(i,j)))^2 + (λ/2)*sum(xk^(j))^2
+	
+	- Working with recommender systems
+		If you have θ you can calcutate x and vice versa
+		You can also randomly initialize on of the and then calcutate the other and iterate back and forth
+		Init -> θ -> x -> ... -> θ -> x it will get better with iterations
+	
+	- Improved iterating over both θ and x 
+		Formula: minθx (1/2)*sum((θ^(j))'*(x^(i)) - y^(i,j)))^2 + (λ/2)*sum(xk^(j))^2 + (λ/2)*sum(θk^(j))^2
+		
+	- Step by step
+		1. Initialize x and θ to small random values
+		2. Minimize cost function using gradient descent or an advanced optimization algorithm
+		3. Make prediction with y^(i,j) = θ^(j)'*x^(i)
+			or vectorized: Y = X*ϴ' where X = column of x^(1)', x^(2)', ..., x^(ni)' and ϴ = column of θ^(1)', θ^(2)', ..., θ^(nj)' 
+		
+	- Low rank matrix factorization (Y = X*ϴ')
+	
+	- Similarity forumla: ||x^(i) - x^(j)||, if the distance is small the similarity is high
+	
+	- Mean normalization
+		If a ϴ^(j) empty the algorithm will set it to all zeros
+		To remedy this we do: 
+			1. Make the initialzation Ynew = Y - mean(Y)
+			2. Perform algorithm
+			3. Use Y = X*ϴ' + mean(Y) to make predictions
+	
