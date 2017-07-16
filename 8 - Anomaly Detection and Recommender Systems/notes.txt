@@ -17,8 +17,8 @@
 		
 	- Gaussian distribution
 		Formula:	1/(sqrt(2*π)*σ) * exp(-((x - μ)^2)/(2*σ^2)) 
-		Where μ can be approxed as:	(1/m)*sum(x^(i))			where i -> m
-		Where σ^2 can be approxed as:	(1/m)*sum(x^(i) - μ)		where i -> m
+		Where μ can be approxed as:	(1/m)*sum(x^(i))			where i -> m	(Mean of x)
+		Where σ^2 can be approxed as:	(1/m)*sum(x^(i) - μ)		where i -> m	(Variance x)
 		(performed individually for each feature)
 		
 	- Anomaly detection formula: p(x) = p(x1, μ1, σ1^2)*p(x2, μ2, σ2^2)*...*p(xn, μn, σn^2)		
