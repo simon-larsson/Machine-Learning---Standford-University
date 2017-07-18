@@ -1,0 +1,72 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 0. Gradient Descent with Large Datasets
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	INTRODUCTION
+	
+	- Large datasets
+		Gradient descent with a high number of samples m is very expensive to train
+		Example: if m = 100 000 000, then gradient descent needs to perform 100 000 000 summations per step
+		
+	- Remedy
+		Take a small subset of m and plot the learning curve (error/m) for Jtrain and Jcv and verify that it has high variance when m is small.
+		Change algorithm
+		
+	- Stochastic gradient descent
+		Variant of the regular gradient descent (which is called batch gradient descent) that scales better for large datasets
+		Does not converge to the minimum but will start circling around it
+		Takes one training example at the time
+		Cost: 		cost(θ, (x^(i), y^(i))) = (1/2)*(hθ(x^(i)) - y^(i))^2
+						Jtrain = (1/m)*sum(cost(θ, (x^(i), y^(i))))
+						Jtrain = (1/m)*sum((1/2)*(hθ(x^(i)) - y^(i))^2)	(put toghether)
+						
+	- Algorithm
+		1. Randomly shuffle datasets (speeds up the convergance)
+		2. 
+			Repeat 	 	
+				{
+					for i = 1...m 	
+					{
+						θj := θj -  α*(hθ(x^(i)) - y^(i))*xj^(i)
+						(for every J ... n)
+					}
+				}
+				
+	- Mini-batch gradient descent
+		Combines both batch and stochastic by perform summation over a subset of m
+		mini-batch size, b, should be somewhere 2-100 depending on m
+		
+	- Algorithm:
+		Repeat 	
+				{
+					for i = 1:b:m 	
+					{
+						θj := θj -  sum((α/b)*(hθ(x^(k)) - y^(k))*xj^(k))	where k -> i + (b - 1)
+						(for every J ... n)
+					}
+				}
+				
+				
+	- Convergance of stochastic gradient descent
+		It is not possible to calculate the cost function after every iteration to check convergance as with batch gradient descent
+		Instead: 
+			1. compute cost(θ, (x^(i), y^(i))) for every example before updating θ
+			2. Every 1000 or so iterations, plot cost(θ, (x^(i), y^(i))) averaged over the 1000 examples
+			3. Make sure that the cost is generally decreasing
+		
+	- Chosing α
+		Stochastic gradient descent does not converge totally and will converge with a smaller error if α is small
+		Optional: Descrease α over time: α = (const1 / (iteration + const2))
+			
+	
+	
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| 1. Advanced topics
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	
+	- Online learning
+		Learning algorithm for a contineous flow of data
+		Basically stochastic gradient descent that never stops repeating
+	
+			
+				
