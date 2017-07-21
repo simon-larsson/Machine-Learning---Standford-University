@@ -69,4 +69,9 @@
 		Basically stochastic gradient descent that never stops repeating
 	
 			
+	- Map Reduce
+		Map Reduce is a way to, on a distributed system, split the workload when the computations are too large
+		Works for many algorithms that can be expressed as computing a sum of functions over the training set
+		Example: Batch gradient descent can be run by splitting up the update step onto several computers and then combining the results
+		Used in Hadoop
 				
